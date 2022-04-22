@@ -17,7 +17,6 @@ public class TodoRouter {
 
   @Bean
   public RouterFunction<ServerResponse> route(TodoHandler todoHandler) {
-
     return RouterFunctions.route(
             GET("/todos/{id}").and(accept(MediaType.APPLICATION_JSON)), todoHandler::getById)
         .andRoute(POST("/todos").and(contentType(MediaType.APPLICATION_JSON)), todoHandler::save);

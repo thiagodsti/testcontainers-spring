@@ -19,7 +19,7 @@ public class TodoRowMapper implements RowMapper<Todo> {
     return builder
         .title(rs.getString("title"))
         .description(rs.getString("description"))
-        .createdAt( rs.getTimestamp("created_at").toInstant())
+        .createdAt(rs.getTimestamp("created_at").toInstant())
         .done(rs.getBoolean("done"))
         .build();
   }
