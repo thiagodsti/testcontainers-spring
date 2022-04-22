@@ -1,7 +1,6 @@
 package com.showcase.demo;
 
 import java.util.Optional;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -9,10 +8,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 
 @Component
-@AllArgsConstructor
-public class TodoHandler {
-
-  private final TodoRepository repository;
+public record TodoHandler(TodoRepository repository) {
 
   public Mono<ServerResponse> save(ServerRequest request) {
     UriComponentsBuilder componentsBuilder =
