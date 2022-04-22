@@ -8,6 +8,7 @@ import lombok.Value;
 @Builder(toBuilder = true)
 public class Todo {
 
+  Long id;
   String title;
   String description;
   boolean done;

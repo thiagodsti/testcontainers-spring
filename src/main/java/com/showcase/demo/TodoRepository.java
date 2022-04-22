@@ -11,7 +11,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TodoRepository {
 
-  @SqlUpdate("INSERT INTO todo(title, description, created_at) VALUES (:title, :description, NOW())")
+  @SqlUpdate(
+      "INSERT INTO todo(title, description, created_at) VALUES (:title, :description, NOW())")
   @GetGeneratedKeys
   Long save(@BindBean Todo todo);
 
