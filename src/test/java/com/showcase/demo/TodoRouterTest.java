@@ -23,9 +23,9 @@ class TodoRouterTest {
 
   @Test
   public void shouldSaveTodo_andReturnLocation() {
-    Todo todo = Todo.builder().title("test").description("test description").build();
+    var todo = TodoSave.builder().title("test").description("test description").build();
 
-    when(todoRepository.save(eq(todo))).thenReturn(1L);
+    when(todoRepository.save(eq(todo))).thenReturn(Todo.builder().id(1L).build());
 
     webClient
         .post()
@@ -64,5 +64,28 @@ class TodoRouterTest {
             .returnResult()
             .getResponseBody();
     assertThat(found).isEqualTo(todo);
+  }
+
+  @Test
+  public void shouldDeleteTodo() {
+    webClient.delete().uri("/todos/1").exchange().expectStatus().isNoContent().expectHeader();
+  }
+
+  @Test
+  public void shouldUpdateTodo() {
+    TodoUpdate todoUpdate =
+        TodoUpdate.builder().title("test").description("test description").build();
+    Todo todo = Todo.builder().id(1L).build();
+    when(todoRepository.findById(1L)).thenReturn(Optional.of(todo));
+    when(todoRepository.update(todoUpdate, 1L)).thenReturn(todo);
+
+    webClient
+        .put()
+        .uri("/todos/1")
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(BodyInserters.fromValue(todoUpdate))
+        .exchange()
+        .expectStatus()
+        .isOk();
   }
 }

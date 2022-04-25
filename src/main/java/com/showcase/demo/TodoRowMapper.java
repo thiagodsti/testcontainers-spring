@@ -17,6 +17,7 @@ public class TodoRowMapper implements RowMapper<Todo> {
       builder.completedAt(completedAtTs.toInstant());
     }
     return builder
+        .id(rs.getLong("id"))
         .title(rs.getString("title"))
         .description(rs.getString("description"))
         .createdAt(rs.getTimestamp("created_at").toInstant())

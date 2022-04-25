@@ -16,15 +16,37 @@ public record TodoHandler(TodoRepository repository) {
     UriComponentsBuilder componentsBuilder =
         UriComponentsBuilder.fromPath(request.requestPath().value());
     return request
-        .bodyToMono(Todo.class)
+        .bodyToMono(TodoSave.class)
         .map(repository::save)
-        .map(id -> componentsBuilder.path("/{id}").buildAndExpand(id).toUri())
+        .map(todo -> componentsBuilder.path("/{id}").buildAndExpand(todo.id()).toUri())
         .flatMap(uri -> ServerResponse.created(uri).build());
   }
 
   @NonNull
   public Mono<ServerResponse> getById(ServerRequest request) {
     Optional<Todo> todo = repository.findById(Long.parseLong(request.pathVariable("id")));
+    if (todo.isEmpty()) {
+      return ServerResponse.notFound().build();
+    }
     return ServerResponse.ok().bodyValue(todo);
+  }
+
+  @NonNull
+  public Mono<ServerResponse> remove(ServerRequest request) {
+    repository.deleteById(Long.parseLong(request.pathVariable("id")));
+    return ServerResponse.noContent().build();
+  }
+
+  public Mono<ServerResponse> update(ServerRequest request) {
+    long id = Long.parseLong(request.pathVariable("id"));
+    Optional<Todo> todoOpt = repository.findById(id);
+    if (todoOpt.isEmpty()) {
+      return ServerResponse.notFound().build();
+    }
+
+   return request
+       .bodyToMono(TodoUpdate.class)
+       .map(todo -> repository.update(todo, id))
+       .flatMap(todo -> ServerResponse.ok().build());
   }
 }
