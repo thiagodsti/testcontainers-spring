@@ -2,6 +2,7 @@ package com.showcase.demo;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.Instant;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,6 +32,7 @@ public class TodoRepositoryIT {
     var todo = TodoSave.builder().title("Test").description("Description").build();
     var saved = repository.save(todo);
     assertThat(saved.id()).isNotNull();
+    assertThat(saved.createdAt()).isNotNull();
   }
 
   @Test
@@ -45,10 +47,19 @@ public class TodoRepositoryIT {
   void insertAndUpdateTodo() {
     var todo = TodoSave.builder().title("Test").description("Description").build();
     var id = repository.save(todo).id();
-    var updated = repository.update(
-        TodoUpdate.builder().title("newTest").description("newDescription").build(), id);
+    var updated =
+        repository.update(
+            TodoUpdate.builder()
+                .title("newTest")
+                .description("newDescription")
+                .done(true)
+                .completedAt(Instant.now())
+                .build(),
+            id);
     var found = repository.findById(updated.id()).get();
     assertThat(found.title()).isEqualTo("newTest");
     assertThat(found.description()).isEqualTo("newDescription");
+    assertThat(found.completedAt()).isNotNull();
+    assertThat(found.done()).isTrue();
   }
 }
