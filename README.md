@@ -11,7 +11,7 @@ Everything here is reactive except for the connection with the database.
 
 - Java 17
 - Postgres
-- 
+
 ### Frameworks / Technologies
 
 - Springboot
