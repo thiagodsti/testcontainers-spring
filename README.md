@@ -1,4 +1,5 @@
 # TodoApplication testcontainers-spring
+![CI](https://github.com/thiagodsti/testcontainers-spring/actions/workflows/ci.yaml/badge.svg?branch=main)
 
 This is a simple project with springboot + testcontainers + JDBI + Reactive and Postgres.
 Everything here is reactive except for the connection with the database.
