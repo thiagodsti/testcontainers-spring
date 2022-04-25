@@ -1,4 +1,4 @@
-# TodoApplication testcontainers-spring
+# TodoApplication
 ![CI](https://github.com/thiagodsti/testcontainers-spring/actions/workflows/ci.yaml/badge.svg?branch=main)
 [![Coverage](https://codecov.io/gh/thiagodsti/testcontainers-spring/branch/main/graph/badge.svg?token=0FW8UXB870)](https://codecov.io/gh/thiagodsti/testcontainers-spring)
 
