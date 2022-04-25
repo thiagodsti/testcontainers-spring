@@ -1,6 +1,6 @@
 # TodoApplication
-![CI](https://github.com/thiagodsti/testcontainers-spring/actions/workflows/ci.yaml/badge.svg?branch=main)
-[![Coverage](https://codecov.io/gh/thiagodsti/testcontainers-spring/branch/main/graph/badge.svg?token=0FW8UXB870)](https://codecov.io/gh/thiagodsti/testcontainers-spring)
+![CI](https://github.com/thiagodsti/todo-spring-tc-webflux-jdbi/actions/workflows/ci.yaml/badge.svg?branch=main)
+[![codecov](https://codecov.io/gh/thiagodsti/todo-spring-tc-webflux-jdbi/branch/main/graph/badge.svg?token=0FW8UXB870)](https://codecov.io/gh/thiagodsti/todo-spring-tc-webflux-jdbi)
 
 This is a simple project with springboot + testcontainers + JDBI + Reactive and Postgres.
 Everything here is reactive except for the connection with the database.
