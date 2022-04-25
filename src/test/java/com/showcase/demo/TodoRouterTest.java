@@ -22,7 +22,7 @@ class TodoRouterTest {
   @MockBean private TodoRepository todoRepository;
 
   @Test
-  public void shouldSaveTodo_andReturnLocation() {
+  public void saveTodo_andReturnLocation() {
     var todo = TodoSave.builder().title("test").description("test description").build();
 
     when(todoRepository.save(eq(todo))).thenReturn(Todo.builder().id(1L).build());
@@ -40,7 +40,7 @@ class TodoRouterTest {
   }
 
   @Test
-  public void shouldGetTodo() {
+  public void getTodo_shouldBeSuccessful() {
     Todo todo =
         Todo.builder()
             .title("test")
@@ -67,12 +67,41 @@ class TodoRouterTest {
   }
 
   @Test
-  public void shouldDeleteTodo() {
+  public void getTodo_receive404_whenTodoNotFound() {
+    when(todoRepository.findById(eq(1L))).thenReturn(Optional.empty());
+
+    webClient
+        .get()
+        .uri("/todos/1")
+        .accept(MediaType.APPLICATION_JSON)
+        .exchange()
+        .expectStatus()
+        .isNotFound();
+  }
+
+  @Test
+  public void deleteTodo_shouldBeSuccessful() {
     webClient.delete().uri("/todos/1").exchange().expectStatus().isNoContent().expectHeader();
   }
 
   @Test
-  public void shouldUpdateTodo() {
+  public void updateTodo_receive404_whenNotFound() {
+    TodoUpdate todoUpdate =
+        TodoUpdate.builder().title("test").description("test description").build();
+    when(todoRepository.findById(eq(1L))).thenReturn(Optional.empty());
+
+    webClient
+        .put()
+        .uri("/todos/1")
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(BodyInserters.fromValue(todoUpdate))
+        .exchange()
+        .expectStatus()
+        .isNotFound();
+  }
+
+  @Test
+  public void updateTodo_shouldBeSuccessful() {
     TodoUpdate todoUpdate =
         TodoUpdate.builder().title("test").description("test description").build();
     Todo todo = Todo.builder().id(1L).build();
